@@ -89,9 +89,9 @@ class ParallelKMeans(data: Seq[Tensor1], k: Int,  d: Int, initialMeans: Seq[Dens
 }
 
 object ParallelKMeans {
-  def goodInitialize(data: Seq[Tensor1], k: Int, d: Int, iterations: Int) = {
+  def goodInitialize(data: Seq[Tensor1], k: Int, d: Int, iterations: Int, f: Double) = {
     val rng = new scala.util.Random(0)
-    val initialMeans = rng.shuffle(StreamingKMeans.process(data)).take(k).toSeq
+    val initialMeans = rng.shuffle(StreamingKMeans.process(data, f)).take(k).toSeq
     val km = new ParallelKMeans(data, k, d, initialMeans)
     km.initialize()
     km.process(iterations)

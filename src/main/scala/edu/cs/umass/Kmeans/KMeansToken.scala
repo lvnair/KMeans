@@ -85,7 +85,7 @@ object KMeansToken {
      println("No of tokens " +tokens.length)
      println("No of features "+ points(0).size)
 
-     val finalpoints = ParallelKMeans.goodInitialize(points.toSeq,k,points(0).length,500)
+     val finalpoints = ParallelKMeans.goodInitialize(points.toSeq,k,points(0).length,500,1.0)
      //println(finalpoints.toSeq)
      //println("Best points "+finalpoints.toArray.zipWithIndex.par.groupBy(x=> x._1._1))
      finalpoints.toArray.zipWithIndex.par.groupBy(x=> x._1._1).map(group => {

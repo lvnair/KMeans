@@ -17,7 +17,7 @@ object StreamingKMeans {
    * in turn, and added to the best cluster with a probability proportional
    * to its distance.
    * @param data The points to be clustered
-   * @param f If more than 1, less clusters are formed, if less than 1, more clusters
+   * @param f If less than 1, less clusters are formed, if more than 1, more clusters
    * @return The cluster centers found
    */
   def process(data: Seq[Tensor1], f: Double = 1.0) = {
@@ -29,7 +29,7 @@ object StreamingKMeans {
     var i = 1
     while (i < data.length) {
       val x = data(i)
-      val (dist, bestI) = centers.zipWithIndex.par.map({ case ((t,s),idx) => (t.twoNormSquared  - 2*t.dot(x),idx)}).maxBy(_._1)
+      val (dist, bestI) = centers.zipWithIndex.par.map({ case ((t,s),idx) => (t.twoNormSquared/(s*s)  - 2*t.dot(x)/s,idx)}).maxBy(_._1)
       if (rng.nextDouble() < f*dist/centers.length) {
         val n = new DenseTensor1(x.length)
 
